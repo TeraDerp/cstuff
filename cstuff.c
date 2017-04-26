@@ -6,16 +6,16 @@
 int mm_push(struct mm *self, void *item){
 	/* Grows the array by one typelen and copies value pointed to by item to the newly
 	   allocated area
-	   Returns: 0 on fail, 1 on success */
+	   Returns: -1 on fail, 0 on success */
 	void *ptr=realloc(self->mem, self->len*self->typelen+self->typelen);
 	
 	if(!ptr)
-		return 0;
+		return -1;
 	else{
 		self->mem=ptr;
 		memcpy((char*)self->mem+self->typelen*self->len, item, self->typelen);
 		self->len++;
-		return 1;
+		return 0;
 	}
 }
 
