@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -10,10 +9,9 @@ int mm_push(struct mm *self, void *item){
 	   Returns: 0 on fail, 1 on success */
 	void *ptr=realloc(self->mem, self->len*self->typelen+self->typelen);
 	
-	if(!ptr){
-		perror("realloc");
+	if(!ptr)
 		return 0;
-	}else{
+	else{
 		self->mem=ptr;
 		memcpy((char*)self->mem+self->typelen*self->len, item, self->typelen);
 		self->len++;
@@ -23,9 +21,7 @@ int mm_push(struct mm *self, void *item){
 
 void *mm_get(struct mm *self, long n){
 	/* Returns a pointer to the nth element */
-	void *v;
-	v=(char *)self->mem+n*self->typelen;
-	return v;
+	return (char *)self->mem+n*self->typelen;
 }
 
 void mm_destroy(struct mm *self){
