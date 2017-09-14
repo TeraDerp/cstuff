@@ -19,6 +19,23 @@ int mm_push(struct mm *self, void *item){
 	}
 }
 
+int mm_pop(struct mm *self, void *ret){
+	/* Writes last element to ret and removes it */
+	void *ptr;
+	memcpy(ret, mm_get(self, self->len-1), self->typelen);
+	self->len--;
+	
+	ptr=realloc(self->mem, self->len*self->typelen);
+	
+	if(!ptr)
+		return -1;
+	else{
+		self->mem=ptr;
+		return 0;
+	}
+	
+}
+
 void *mm_get(struct mm *self, long n){
 	/* Returns a pointer to the nth element */
 	return (char *)self->mem+n*self->typelen;
@@ -36,9 +53,6 @@ void newmm(struct mm *self, long type){
 		.mem=(void*)0,
 		.typelen=type,
 		.len=0,
-		.push=mm_push,
-		.get=mm_get,
-		.destroy=mm_destroy,
 	};
 	return;
 }
